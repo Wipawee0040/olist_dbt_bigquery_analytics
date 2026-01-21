@@ -1,0 +1,42 @@
+version: 2
+
+models:
+  - name: stg_customers 
+    columns:
+      - name: customer_id
+        description: "Primary key: หนึ่ง order มีได้แค่หนึ่ง customer_id"
+        tests:
+          - unique   
+          - not_null 
+
+      - name: customer_unique_id
+        description: "ID จริงของลูกค้า (คนนึงอาจมีหลาย order)"
+        tests:
+          - not_null
+
+      - name: zip_code
+        tests:
+          - not_null
+  - name: stg_orders
+    description: "ตารางรวม Order ทั้งหมด (Fact Table)"
+    columns:
+      - name: order_id
+        tests:
+          - unique
+          - not_null
+      
+      - name: status
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+              # นี่คือ list ค่ามาตรฐานของ Olist ถ้าเจอค่าอื่น dbt จะฟ้องทันที
+                values: ['delivered', 'shipped', 'canceled', 'unavailable', 'invoiced', 'processing', 'created', 'approved']
+              
+      - name: customer_id
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('stg_customers')
+                field: customer_id

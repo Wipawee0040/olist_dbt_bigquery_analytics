@@ -1,0 +1,16 @@
+version: 2
+
+sources: 
+  - name: olist_raws
+    database: olist-dbt-bigquery
+    schema: olist_raws
+    tables:
+      - name: customers
+      - name: geolocation
+      - name: orders
+      - name: order_items
+      - name: order_payments
+      - name: order_reviews
+      - name: product
+      - name: product_category_name_translation
+      - name: sellers
