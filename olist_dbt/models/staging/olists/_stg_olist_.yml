@@ -1,6 +1,7 @@
 version: 2
 
 models:
+#stg_customers**
   - name: stg_customers 
     columns:
       - name: customer_id
@@ -17,6 +18,7 @@ models:
       - name: zip_code
         tests:
           - not_null
+#stg_orders**
   - name: stg_orders
     description: "ตารางรวม Order ทั้งหมด (Fact Table)"
     columns:
@@ -30,7 +32,6 @@ models:
           - not_null
           - accepted_values:
               arguments:
-              # นี่คือ list ค่ามาตรฐานของ Olist ถ้าเจอค่าอื่น dbt จะฟ้องทันที
                 values: ['delivered', 'shipped', 'canceled', 'unavailable', 'invoiced', 'processing', 'created', 'approved']
               
       - name: customer_id
@@ -40,3 +41,48 @@ models:
               arguments:
                 to: ref('stg_customers')
                 field: customer_id
+#stg_order_payments**
+  - name: stg_order_payments
+    description: "ตารางการชำระเงินของแต่ละ order"
+    columns:
+      - name: payment_value
+        tests:
+          - not_null
+          - dbt_utils.accepted_range: 
+              arguments:
+                min_value: 0
+
+      - name: payment_type
+        tests:
+          - not_null
+          - accepted_values:
+              arguments:
+                values: ['Credit Card', 'Boleto', 'Voucher', 'Debit Card', 'Other']
+#stg_product**
+  - name: stg_product
+    description: "ตารางข้อมูลสินค้า"
+    columns:
+      - name: product_id
+        tests:
+          - unique
+          - not_null
+
+      - name: product_category_name
+        tests:
+          - not_null
+#stg_orders_reviews**
+  - name: stg_order_reviews
+    description: "ตารางรีวิวของแต่ละ order"
+    columns:
+      - name: review_id
+        tests:
+          - unique
+          - not_null
+
+      - name: review_score
+        tests:
+          - not_null
+          - dbt_utils.accepted_range:
+              arguments:
+                min_value: 1
+                max_value: 5
