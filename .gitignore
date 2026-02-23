@@ -40,3 +40,4 @@ keys/
 # Codespaces / Devcontainer (optional)
 # -------------------------
 .devcontainer/.env
+!.devcontainer/devcontainer.json
