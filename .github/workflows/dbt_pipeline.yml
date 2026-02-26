@@ -42,10 +42,10 @@ jobs:
         run: dbt deps --profiles-dir .
         working-directory: ./olist_dbt
 
-      - name: Run dbt test
-        run: dbt test --profiles-dir .
-        working-directory: ./olist_dbt
-
       - name: Run dbt run
         run: dbt run --profiles-dir .
+        working-directory: ./olist_dbt
+
+      - name: Run dbt test
+        run: dbt test --profiles-dir .
         working-directory: ./olist_dbt
