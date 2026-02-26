@@ -35,17 +35,17 @@ jobs:
 
       # 7. สั่งรัน dbt (ต้องระบุ working-directory ให้ตรงกับโฟลเดอร์โปรเจกต์)
       - name: Run dbt debug
-        run: dbt debug
+        run: dbt debug --profiles-dir .
         working-directory: ./olist_dbt
 
       - name: Run dbt deps
-        run: dbt deps
+        run: dbt deps --profiles-dir .
         working-directory: ./olist_dbt
 
       - name: Run dbt test
-        run: dbt test
+        run: dbt test --profiles-dir .
         working-directory: ./olist_dbt
 
       - name: Run dbt run
-        run: dbt run
+        run: dbt run --profiles-dir .
         working-directory: ./olist_dbt

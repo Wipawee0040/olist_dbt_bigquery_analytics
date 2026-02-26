@@ -1,0 +1,11 @@
+olist_dbt:
+  target: dev
+  outputs:
+    dev:
+      type: bigquery
+      method: oauth 
+      project: olist-dbt-bigquery
+      dataset: olist_analytics
+      threads: 4
+      timeout_seconds: 300
+      location: US
