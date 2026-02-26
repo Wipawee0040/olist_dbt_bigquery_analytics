@@ -2,8 +2,13 @@ WITH orders AS
 (SELECT *
 FROM {{ ref ('stg_orders') }}),
 order_payments AS
-(SELECT *
-FROM {{ ref ('stg_order_payments') }}
+(SELECT 
+    order_id,
+    MAX(payment_type) AS payment_type, 
+        -- รวมยอดเงินทั้งหมดที่จ่ายในออเดอร์นั้น
+    SUM(payment_value) AS payment_value 
+FROM {{ ref('stg_order_payments') }}
+GROUP BY order_id
 ),
 order_join AS
 (SELECT
@@ -17,10 +22,7 @@ order_join AS
     COALESCE(op.payment_type, 'Other') AS payment_type,
     COALESCE(MAX(op.payment_value), 0) AS payment_value
 FROM orders o
-LEFT JOIN order_payments op
-ON o.order_id = op.order_id
-GROUP BY o.order_id, o.customer_id, o.status, o.created_at, o.approved_at, o.shipped_at, o.estimated_delivery_at, op.payment_type
-ORDER BY o.created_at
+    LEFT JOIN order_payments_summary p ON o.order_id = p.order_id
 )
 
 SELECT
