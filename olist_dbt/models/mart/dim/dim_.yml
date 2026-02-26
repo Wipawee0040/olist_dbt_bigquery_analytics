@@ -1,0 +1,27 @@
+version: 2
+
+models:
+  - name: dim_products
+    description: "ข้อมูลเกี่ยวกับสินค้า"
+    columns:
+      - name: product_id
+      - name: product_category_name
+      - name: weight_g
+      - name: length_cm
+      - name: height_cm
+      - name: width_cm
+  - name: dim_customers
+    description: "ข้อมูลเกี่ยวกับลูกค้า"
+    columns:
+      - name: customer_id
+      - name: customer_unique_id
+      - name: zip_code
+      - name: city
+      - name: state
+  - name: dim_sellers
+    description: "ข้อมูลเกี่ยวกับผู้ขาย"
+    columns:
+      - name: seller_id
+      - name: zip_code
+      - name: city
+      - name: state
