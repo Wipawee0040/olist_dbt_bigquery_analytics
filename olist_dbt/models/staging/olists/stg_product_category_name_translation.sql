@@ -8,8 +8,8 @@ WHERE string_field_0 != 'product_category_name_english'
 
 clean AS (
 SELECT 
-    product_category_name,
-    product_category_name_english
+    INITCAP(product_category_name) AS product_category_name,
+    INITCAP(product_category_name_english) AS product_category_name_english
 FROM source
 ORDER BY product_category_name
 )

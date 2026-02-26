@@ -5,7 +5,7 @@ FROM {{ source ('olist_raws', 'order_items') }})
 clean AS (
 SELECT
     order_id,
-    CAST(order_item_id AS STRING) AS order_item_id,
+    order_item_id,
     product_id,
     seller_id,
     shipping_limit_date,
