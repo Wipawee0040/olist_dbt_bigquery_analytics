@@ -1,0 +1,51 @@
+name: dbt_run_pipeline
+
+# 1. กำหนดว่าจะให้ระบบรันตอนไหน (ในที่นี้คือเมื่อมีการ Push โค้ดเข้าสาขา main)
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  run-dbt:
+    # 2. เช่าเซิร์ฟเวอร์จำลองของ GitHub (Ubuntu) เพื่อรันงาน
+    runs-on: ubuntu-latest
+
+    steps:
+      # 3. ดึงโค้ดล่าสุดจาก Repository ของเรามาที่เซิร์ฟเวอร์
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      # 4. ติดตั้ง Python
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      # 5. ติดตั้ง dbt สำหรับ BigQuery
+      - name: Install dbt-bigquery
+        run: |
+          pip install dbt-bigquery==1.11.0
+
+      # 6. ยืนยันตัวตนกับ Google Cloud โดยใช้ Secret ที่เราซ่อนไว้
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v1
+        with:
+          credentials_json: ${{ secrets.GCP_CREDENTIALS }}
+
+      # 7. สั่งรัน dbt (ต้องระบุ working-directory ให้ตรงกับโฟลเดอร์โปรเจกต์)
+      - name: Run dbt debug
+        run: dbt debug
+        working-directory: ./olist_dbt
+
+      - name: Run dbt deps
+        run: dbt deps
+        working-directory: ./olist_dbt
+
+      - name: Run dbt test
+        run: dbt test
+        working-directory: ./olist_dbt
+
+      - name: Run dbt run
+        run: dbt run
+        working-directory: ./olist_dbt
