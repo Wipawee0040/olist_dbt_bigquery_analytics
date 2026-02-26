@@ -43,7 +43,7 @@ jobs:
         working-directory: ./olist_dbt
 
       - name: Run dbt run
-        run: dbt run --profiles-dir . --full-refresh
+        run: dbt run --profiles-dir . 
         working-directory: ./olist_dbt
 
       - name: Run dbt test
