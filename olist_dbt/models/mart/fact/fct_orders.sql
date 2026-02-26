@@ -22,7 +22,7 @@ order_join AS
     COALESCE(op.payment_type, 'Other') AS payment_type,
     COALESCE(MAX(op.payment_value), 0) AS payment_value
 FROM orders o
-    LEFT JOIN order_payments_summary p ON o.order_id = p.order_id
+    LEFT JOIN order_payments op ON o.order_id = op.order_id
 )
 
 SELECT
