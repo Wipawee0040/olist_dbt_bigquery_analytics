@@ -3,7 +3,7 @@ olist_dbt:
   outputs:
     dev:
       type: bigquery
-      method: oauth 
+      method: oauth
       project: olist-dbt-bigquery
       dataset: olist_analytics
       threads: 4
